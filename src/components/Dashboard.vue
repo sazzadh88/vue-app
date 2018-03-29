@@ -1,4 +1,8 @@
-<p>Dashboard Component</p>	
+<template>
+  <div>
+  	<p>Dashboard Component</p>	
+  </div>
+</template>
 
 <script>
 	export default{
