@@ -1,9 +1,13 @@
-<p>Dashboard Component</p>	
+<template>
+    <div>
+        Welcome Dashboard
+    </div>
+</template>
 
 <script>
-	export default{
-		created () {
-            console.log('hits from dashboard.vue');
+    export default {
+        created () {
+            console.log('hits form Dashboard');
         }
-	}
+    }
 </script>
