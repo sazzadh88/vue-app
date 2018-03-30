@@ -34,15 +34,18 @@
         }),
         created(){
             let token = localStorage.getItem('token');
-            axios.get("https://app.web/api/me?token="+token)
-            .then(response =>{
-                
-                
-                this.$router.push('/me');
-            })
-            .catch(error =>{
-                 this.$router.push('/login');
-            })
+            if(token){
+                axios.get("https://app.web/api/me?token="+token)
+                .then(response =>{
+                    
+                    
+                    this.$router.push('/me');
+                })
+                .catch(error =>{
+                    localStorage.removeItem('token');
+                     this.$router.push('/login');
+                })
+            }
 
         },
 
@@ -67,6 +70,7 @@
                         .catch(error =>{
                             
                             this.$swal('Login Failed');
+
                         })
                     
                 },
