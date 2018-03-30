@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import Logout from './components/Logout.vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 
 Vue.use(VueRouter);
@@ -30,6 +30,7 @@ const routes = [{
         path: '/logout',
         component: Logout,
         name: 'logout'
+    },
          
     {
         path: '/me',
