@@ -23,6 +23,7 @@
                     <li>
                         <router-link class='nav-link' :to="{ name: 'me'}">Dashboard</router-link>
                     </li>
+                    
           </ul>
         </div><!--/.nav-collapse -->
       </div>

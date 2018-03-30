@@ -6,22 +6,22 @@
 
 <script>
 import axios from 'axios'
-    export default {
-    	 data: () => ({
-            name:''
-        }),
-        
-        mounted(){
-        	let token = localStorage.getItem('token');
-        	axios.get("https://app.web/api/me?token="+token)
-        	.then(response =>{
-        		
-        		this.name = response.data.name;
-        	})
-        	.catch(error =>{
-        		 localStorage.removeItem('token');
-        		 this.$router.push('/login');
-        	})
-        }
+export default {
+	data: () => ({
+		name:''
+	}),
+	mounted(){
+		let token = localStorage.getItem('token');
+		if(token){
+			axios.get("https://app.web/api/me?token="+token)
+			.then(response =>{
+				this.name = response.data.name;
+			})
+			.catch(()=>{
+				localStorage.removeItem('token');
+				this.$router.push('/login');
+			})
+		}
     }
+}
 </script>

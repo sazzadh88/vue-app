@@ -32,51 +32,27 @@
             success:false,
             error:false
         }),
-        created(){
-            let token = localStorage.getItem('token');
-            if(token){
-                axios.get("https://app.web/api/me?token="+token)
+        methods: {
+            login(){
+                axios.post('https://app.web/api/login', {
+                    email: this.email,
+                    password: this.password,
+                })
                 .then(response =>{
-                    
-                    
+                    this.success=true;
+                    this.error=false;
+                    let token = response.data.access_token;
+                    localStorage.setItem('token',token);
                     this.$router.push('/me');
                 })
-                .catch(error =>{
-                    localStorage.removeItem('token');
-                     this.$router.push('/login');
+                .catch(() => {
+                    this.$swal('Login Failed');
                 })
+
+            },
+            clear() {
+                this.$refs.form.reset()
             }
-
-        },
-
-        methods: {
-            login() {
-                    
-                        axios.post('https://app.web/api/login', {
-                            email: this.email,
-                            password: this.password,
-                        })
-                        .then(response =>{
-                            
-                            this.success=true;
-                            this.error=false;
-                            let token = response.data.access_token;
-                            localStorage.setItem('token',token);
-
-                            this.$router.push('/me');
-
-                            // this.$swal('Login Succesful');
-                        })
-                        .catch(error =>{
-                            
-                            this.$swal('Login Failed');
-
-                        })
-                    
-                },
-                clear() {
-                    this.$refs.form.reset()
-                }
         }
     }
 </script>
