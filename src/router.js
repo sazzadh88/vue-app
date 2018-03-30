@@ -5,6 +5,7 @@ import Home from './components/Home.vue'
 import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
+import Logout from './components/Logout.vue'
 import axios from 'axios'
 
 
@@ -18,14 +19,18 @@ const routes = [{
     {
         path: '/login',
         component: Login,
-        name: 'login'
+        name: 'login',
     },
     {
         path: '/register',
         component: Register,
         name: 'register',
-        meta: { requiresAuth: true }
     },
+    {
+        path: '/logout',
+        component: Logout,
+        name: 'logout'
+         
     {
         path: '/me',
         component: Dashboard,
@@ -42,23 +47,17 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    const currentUser = null;
-    const token = localStorage.getItem('token'); 
-    if(token){
-        axios.get('https://app.web/api/me?='+token)
-        .then(response => {
-            this.currentUser = response.data;
-        })
-    }  
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-    if(requiresAuth && !currentUser) {
-       next('/login');
-    } else {
+  if (to.meta.requiresAuth) {
+    const authUser = JSON.parse(localStorage.getItem('authUser'))
+    if (authUser && authUser.access_token) {
       next();
+    } else {
+      next({name: 'login'});
     }
-
+  }
+  next()
 });
+
 
 
 
