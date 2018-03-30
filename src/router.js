@@ -28,6 +28,7 @@ const routes = [{
     {
         path: '/me',
         component: Dashboard,
+         secure: true,
         name: 'me'
     }
 

@@ -1,25 +1,24 @@
 <template>
-    <div>
-        <v-container grid-list-md text-xs-center class="pad2">
-            <v-layout row>
-                <v-flex xs12>
-                    <v-app class="pad2">
-                        <v-form v-model="valid" ref="form" lazy-validation>
-                            <v-text-field label="Name" v-model="name" :rules="nameRules" :counter="10" required></v-text-field>
-                            <v-text-field label="E-mail" v-model="email" :rules="emailRules" required></v-text-field>
-                            <v-select label="Item" v-model="select" :items="items" :rules="[v => !!v || 'Item is required']" required></v-select>
-                            <v-checkbox label="Do you agree?" v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']" required></v-checkbox>
-
-                            <v-btn @click="submit" :disabled="!valid">
-                                submit
-                            </v-btn>
-                            <v-btn @click="clear">clear</v-btn>
-                        </v-form>
-                    </v-app>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </div>
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="account-wall">
+                    <div id="my-tab-content" class="tab-content">
+                            <div class="tab-pane active" id="login">
+                            <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                        alt="">
+                            <form class="form-signin">
+                                <input type="text" v-model='email' class="form-control" placeholder="Email" required autofocus>
+                                <input type="password" v-model='password' class="form-control" placeholder="Password" required>
+                                <input v-on:click="login" class="btn btn-lg btn-default btn-block" value="Sign In" />
+                                <br>
+                                  <div class="alert alert-success pad-2" v-if="success" role="alert">Login Succesful</div>
+                           <div class="alert alert-danger pad-2" v-if="error" role="alert">Login Failed</div>
+                            </form>
+                          
+                           </div> 
+                           
+                       </div>
+                </div>
+            </div>
 </template>
 
 <script>
@@ -27,38 +26,30 @@
 
     export default {
         data: () => ({
-            valid: true,
-            name: '',
-            nameRules: [
-                v => !!v || 'Name is required',
-                v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-            ],
-            email: '',
-            emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-            ],
-            select: null,
-            items: [
-                'Item 1',
-                'Item 2',
-                'Item 3',
-                'Item 4'
-            ],
-            checkbox: false
+            email:'',
+            password:'',
+            success:false,
+            error:false
         }),
 
         methods: {
-            submit() {
-                    if (this.$refs.form.validate()) {
-                        // Native form submission is not yet supported
-                        axios.post('/api/submit', {
-                            name: this.name,
+            login() {
+                    
+                        axios.post('https://app.web/api/login', {
                             email: this.email,
-                            select: this.select,
-                            checkbox: this.checkbox
+                            password: this.password,
                         })
-                    }
+                        .then(response =>{
+                            
+                            this.success=true;
+                            this.error=false;
+                            // this.$swal('Login Succesful');
+                        })
+                        .catch(error =>{
+                            
+                            this.$swal('Login Failed');
+                        })
+                    
                 },
                 clear() {
                     this.$refs.form.reset()
