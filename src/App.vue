@@ -16,9 +16,7 @@ export default {
 
   components: {
     Nav
-  },
-  created () {
-            console.log('hits from app.vue');
-        }
+  }
+  
 }
 </script>

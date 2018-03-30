@@ -25,12 +25,26 @@
     import axios from 'axios';
 
     export default {
+        
         data: () => ({
             email:'',
             password:'',
             success:false,
             error:false
         }),
+        created(){
+            let token = localStorage.getItem('token');
+            axios.get("https://app.web/api/me?token="+token)
+            .then(response =>{
+                
+                
+                this.$router.push('/me');
+            })
+            .catch(error =>{
+                 this.$router.push('/login');
+            })
+
+        },
 
         methods: {
             login() {
@@ -43,6 +57,11 @@
                             
                             this.success=true;
                             this.error=false;
+                            let token = response.data.access_token;
+                            localStorage.setItem('token',token);
+
+                            this.$router.push('/me');
+
                             // this.$swal('Login Succesful');
                         })
                         .catch(error =>{

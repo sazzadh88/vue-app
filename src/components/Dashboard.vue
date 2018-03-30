@@ -1,13 +1,26 @@
 <template>
     <div>
-        Welcome Dashboard
+        Welcome Dashboard  , {{name}}
     </div>
 </template>
 
 <script>
+import axios from 'axios'
     export default {
-        created () {
-            console.log('hits form Dashboard');
+    	 data: () => ({
+            name:''
+        }),
+        
+        mounted(){
+        	let token = localStorage.getItem('token');
+        	axios.get("https://app.web/api/me?token="+token)
+        	.then(response =>{
+        		// console.log(response);
+        		this.name = response.data.name;
+        	})
+        	.catch(error =>{
+        		 this.$router.push('/login');
+        	})
         }
     }
 </script>

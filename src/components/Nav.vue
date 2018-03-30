@@ -38,9 +38,7 @@
   export default{
    
 
-   created(){
-        console.log('Hit From Nav');
-      }
+   
     
   }
 </script>
